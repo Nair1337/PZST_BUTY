@@ -17,7 +17,6 @@ use Yii;
  * @property string|null $picture_url
  * @property float|null $weight
  * @property int|null $warranty
- * @property string $productcol
  *
  * @property CartProduct[] $cartProducts
  * @property Comment[] $comments
@@ -44,7 +43,7 @@ class Product extends \yii\db\ActiveRecord
             [['name', 'tax_rate'], 'required'],
             [['price', 'tax_rate', 'weight'], 'number'],
             [['stock', 'warranty'], 'integer'],
-            [['name', 'productcol'], 'string', 'max' => 45],
+            [['name'], 'string', 'max' => 45],
             [['description'], 'string', 'max' => 255],
             [['ean', 'picture_url'], 'string', 'max' => 90],
         ];
@@ -66,7 +65,6 @@ class Product extends \yii\db\ActiveRecord
             'picture_url' => 'Picture Url',
             'weight' => 'Weight',
             'warranty' => 'Warranty',
-            'productcol' => 'Productcol',
         ];
     }
 

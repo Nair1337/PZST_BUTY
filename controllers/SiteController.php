@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use Yii;
+use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
@@ -10,6 +11,7 @@ use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\SignupForm;
 use app\models\ContactForm;
+use app\models\Product;
 
 class SiteController extends Controller
 {
@@ -125,6 +127,25 @@ class SiteController extends Controller
         return $this->render('contact', [
             'model' => $model,
         ]);
+    }
+
+    public function actionProductlist()
+    {
+        $dataProvider = new ActiveDataProvider([
+            'query' => Product::find(),
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+        ]);
+
+        return $this->render('productlist', ['listDataProvider' => $dataProvider]);
+    }
+
+    public function actionProductdetails()
+    {
+        $itemId = $_REQUEST['id'];
+        $item = Product::find()->where(['id' => $itemId])->one();
+        return $this->render('productdetails', ['item' => $item]);
     }
 
     /**
