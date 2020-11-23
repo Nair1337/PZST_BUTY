@@ -3,24 +3,27 @@
 namespace app\models;
 
 use Yii;
+use yii\web\IdentityInterface;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "user".
  *
  * @property int $id
  * @property string $username
- * @property string $password
+ * @property string $password_hash
  * @property int $is_admin
  * @property string|null $first_name
  * @property string|null $last_name
- * @property string|null $address
+ * @property string $email_address
+ * @property string $access_token
+ * @property string $authentication_key
  *
- * @property AuthenticationToken $authenticationToken
  * @property Cart[] $carts
  * @property Comment[] $comments
  * @property Order[] $orders
  */
-class User extends \yii\db\ActiveRecord
+class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 {
     /**
      * {@inheritdoc}
@@ -36,9 +39,11 @@ class User extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['username', 'password', 'is_admin'], 'required'],
+            [['username', 'password_hash', 'is_admin', 'email_address', 'access_token', 'authentication_key'], 'required'],
             [['is_admin'], 'integer'],
-            [['username', 'password', 'first_name', 'last_name', 'address'], 'string', 'max' => 45],
+            [['username', 'first_name', 'last_name', 'email_address'], 'string', 'max' => 45],
+            [['password_hash'], 'string', 'max' => 60],
+            [['access_token', 'authentication_key'], 'string', 'max' => 64],
             [['username'], 'unique'],
         ];
     }
@@ -51,22 +56,19 @@ class User extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'username' => 'Username',
-            'password' => 'Password',
+            'password_hash' => 'Password Hash',
             'is_admin' => 'Is Admin',
             'first_name' => 'First Name',
             'last_name' => 'Last Name',
-            'address' => 'Address',
+            'email_address' => 'Email Address',
+            'access_token' => 'Access Token',
+            'authentication_key' => 'Authentication Key',
         ];
     }
 
-    /**
-     * Gets query for [[AuthenticationToken]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getAuthenticationToken()
+    public function getUsername()
     {
-        return $this->hasOne(AuthenticationToken::className(), ['user_id' => 'id']);
+        return $this->username;
     }
 
     /**
@@ -98,4 +100,55 @@ class User extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Order::className(), ['user_id' => 'id']);
     }
+
+    /**
+     * @inheritDoc
+     */
+    public static function findIdentity($id)
+    {
+        return self::findOne(['id' => $id]);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public static function findIdentityByAccessToken($token, $type = null)
+    {
+        return self::findOne(['access_token' => $token]);
+    }
+
+    public static function findByUsername($name)
+    {
+        return self::findOne(['username' => $name]);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getAuthKey()
+    {
+        return $this->authentication_key;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function validateAuthKey($authKey)
+    {
+        return $this->authentication_key === $authKey;
+    }
+
+    public function validatePassword($value)
+    {
+        return \Yii::$app->getSecurity()->validatePassword($value, $this->password_hash);
+    }
+
 }

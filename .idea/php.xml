@@ -84,6 +84,9 @@
       <path value="$PROJECT_DIR$/vendor/yiisoft/yii2-bootstrap4" />
       <path value="$PROJECT_DIR$/vendor/rmrevin/yii2-fontawesome" />
       <path value="$PROJECT_DIR$/vendor/fortawesome/font-awesome" />
+      <path value="$PROJECT_DIR$/vendor/fxp/composer-asset-plugin" />
+      <path value="$PROJECT_DIR$/vendor/bower-asset/bootstrap" />
+      <path value="$PROJECT_DIR$/vendor/yiisoft/yii2-bootstrap" />
     </include_path>
   </component>
 </project>
