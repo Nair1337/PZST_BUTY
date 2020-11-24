@@ -7,11 +7,11 @@ body {
     min-height: 100%;
     height: auto;
     margin: 0 auto -60px;
-    padding: 0 0 60px;
+    padding: 0 0 30px;
 }
 
 .wrap > .container {
-    padding: 70px 15px 20px;
+    padding: 48px 15px 20px;
 }
 
 .footer {
@@ -112,4 +112,81 @@ a.desc:after {
 
 .nav > li > form > button.logout:focus {
     outline: none;
+}
+
+.product-list-item {
+    padding: 5px;
+}
+
+.product-list-item:hover {
+    padding: 4px;
+    border: 1px solid grey;
+    border-radius: 2px;
+}
+
+.category-list-item {
+    padding-left: 0px;
+}
+
+.category-list-item:hover {
+    padding-left: 10px;
+}
+
+.category-list-item a {
+    text-decoration: none;
+}
+
+.glyphicon {
+    font-family: "FontAwesome";
+    font-weight: 900;
+}
+
+.glyphicon-pencil {
+    content: "\f044";
+}
+
+.glyphicon-trash::before {
+    content: "\f2ed";
+}
+
+.glyphicon-eye-open::before {
+    content: "\f06e";
+}
+
+.form-group {
+    margin-bottom: 0px;
+}
+
+.product-description {
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+.product-comment {
+    padding-bottom: 30px;
+    margin-bottom: 10px;
+}
+
+.product-search-bar {
+    bottom: 0px;
+}
+
+#productsearch-name {
+    text-align: right;
+}
+
+#productsearch-name #search-icon {
+    font-family: FontAwesome;
+    content: '\f2dd';
+}
+
+.comment-list {
+    margin-top: 40px;
+}
+
+.comment-list-item {
+    padding: 15px 40px 10px 40px ;
+    margin: 15px 40px 0 40px;
+    border-top: 1px solid grey;
+    border-bottom: 1px solid grey;
+    background-color: #f5f5f5;
 }

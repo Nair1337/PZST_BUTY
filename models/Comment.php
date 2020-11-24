@@ -7,6 +7,7 @@ use Yii;
 /**
  * This is the model class for table "comment".
  *
+ * @property int $id
  * @property int $product_id
  * @property int $author_id
  * @property string|null $comment
@@ -31,9 +32,10 @@ class Comment extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['product_id', 'author_id'], 'required'],
-            [['product_id', 'author_id', 'stars'], 'integer'],
+            [['id', 'product_id', 'author_id'], 'required'],
+            [['id', 'product_id', 'author_id', 'stars'], 'integer'],
             [['comment'], 'string', 'max' => 255],
+            [['id'], 'unique'],
             [['author_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['author_id' => 'id']],
             [['product_id'], 'exist', 'skipOnError' => true, 'targetClass' => Product::className(), 'targetAttribute' => ['product_id' => 'id']],
         ];
@@ -45,6 +47,7 @@ class Comment extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
+            'id' => 'ID',
             'product_id' => 'Product ID',
             'author_id' => 'Author ID',
             'comment' => 'Comment',

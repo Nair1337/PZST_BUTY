@@ -129,25 +129,6 @@ class SiteController extends Controller
         ]);
     }
 
-    public function actionProductlist()
-    {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Product::find(),
-            'pagination' => [
-                'pageSize' => 10,
-            ],
-        ]);
-
-        return $this->render('productlist', ['listDataProvider' => $dataProvider]);
-    }
-
-    public function actionProductdetails()
-    {
-        $itemId = $_REQUEST['id'];
-        $item = Product::find()->where(['id' => $itemId])->one();
-        return $this->render('productdetails', ['item' => $item]);
-    }
-
     /**
      * Displays about page.
      *

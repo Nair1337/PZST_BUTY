@@ -117,4 +117,8 @@ class Product extends \yii\db\ActiveRecord
     {
         return $this->hasMany(ProductFeature::className(), ['product_id' => 'id']);
     }
+
+    public function getCategories() {
+        return $this->hasMany(Category::className(), ['id' => 'category_id'])->viaTable('product_category', ['product_id' => 'id']);
+    }
 }
