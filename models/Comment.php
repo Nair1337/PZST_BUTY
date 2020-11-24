@@ -3,18 +3,17 @@
 namespace app\models;
 
 use Yii;
+use \DateTime;
 
 /**
- * This is the model class for table "comment".
+ * This is the model class for table "Comment".
  *
  * @property int $id
  * @property int $product_id
  * @property int $author_id
  * @property string|null $comment
  * @property int $stars
- *
- * @property User $author
- * @property Product $product
+ * @property string|null $timestamp
  */
 class Comment extends \yii\db\ActiveRecord
 {
@@ -23,7 +22,7 @@ class Comment extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'comment';
+        return 'Comment';
     }
 
     /**
@@ -32,10 +31,10 @@ class Comment extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'product_id', 'author_id'], 'required'],
-            [['id', 'product_id', 'author_id', 'stars'], 'integer'],
+            [['product_id', 'author_id'], 'required'],
+            [['product_id', 'author_id', 'stars'], 'integer'],
+            [['timestamp'], 'safe'],
             [['comment'], 'string', 'max' => 255],
-            [['id'], 'unique'],
             [['author_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['author_id' => 'id']],
             [['product_id'], 'exist', 'skipOnError' => true, 'targetClass' => Product::className(), 'targetAttribute' => ['product_id' => 'id']],
         ];
@@ -52,14 +51,10 @@ class Comment extends \yii\db\ActiveRecord
             'author_id' => 'Author ID',
             'comment' => 'Comment',
             'stars' => 'Stars',
+            'timestamp' => 'Timestamp',
         ];
     }
 
-    /**
-     * Gets query for [[Author]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
     public function getAuthor()
     {
         return $this->hasOne(User::className(), ['id' => 'author_id']);
@@ -73,5 +68,17 @@ class Comment extends \yii\db\ActiveRecord
     public function getProduct()
     {
         return $this->hasOne(Product::className(), ['id' => 'product_id']);
+    }
+
+    public function save($runValidation = true, $attributeNames = null)
+    {
+
+        $this->timestamp = '2020-06-02 03:06:15';
+
+        if ($this->getIsNewRecord()) {
+            return $this->insert($runValidation, $attributeNames);
+        }
+
+        return $this->update($runValidation, $attributeNames) !== false;
     }
 }

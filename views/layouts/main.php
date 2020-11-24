@@ -1,6 +1,7 @@
 <?php
 
 /* @var $this \yii\web\View */
+
 /* @var $content string */
 
 use yii\bootstrap4\Alert;
@@ -37,14 +38,20 @@ AppAsset::register($this);
         ],
     ]);
     echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
+        'options' => ['class' => 'navbar-nav navbar-right container-fluid navbar-container'],
         'items' => [
             //['label' => 'Home', 'url' => ['/site/index']],
             ['label' => 'Products', 'url' => ['/product']],
             ['label' => 'About', 'url' => ['/site/about']],
             ['label' => 'Contact', 'url' => ['/site/contact']],
+            [
+                'label' => 'Cart',
+                'url' => ['site/cart'],
+                'visible' => !Yii::$app->user->isGuest,
+                'options' => ['class' => 'cart-button']
+            ],
             Yii::$app->user->isGuest ? (
-                ['label' => 'Login', 'url' => ['/site/login']]
+            ['label' => 'Login', 'url' => ['/site/login'], 'options' => ['class' => 'login-button']]
             ) : (
                 '<li class="nav-item">'
                 . Html::beginForm(['/site/logout'], 'post')
@@ -59,7 +66,7 @@ AppAsset::register($this);
     ]);
     NavBar::end();
     ?>
-q
+    q
     <div class="container">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],

@@ -68,13 +68,33 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="row">
         <div class="col-12">
             <h5>Comments</h5>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <?php if (!Yii::$app->user->isGuest) { ?>
+                <div class="comment-list-form">
+                    <?=
+                    $this->render('../comment/_form', [
+                        'model' => new Comment(),
+                        'productID' => $model->id,
+                        'userID' => Yii::$app->user->identity->getId(),
+                    ]);
+                    ?>
+                </div>
+            <?php } ?>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
             <?= ListView::widget([
                 'options' => [
                     'tag' => 'div',
                     'class' => 'product-comment comment-list'
                 ],
                 'dataProvider' => new ActiveDataProvider([
-                    'query' => Comment::find()->where(['product_id' => $model->id])
+                    'query' => Comment::find()->where(['product_id' => $model->id]),
+                    'sort'=> ['defaultOrder' => ['timestamp' => SORT_DESC]]
                 ]),
                 'emptyText' => 'No comments',
                 'summary' => '',

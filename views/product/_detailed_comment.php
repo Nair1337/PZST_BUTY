@@ -12,11 +12,11 @@ use yii\helpers\Html;
             $x = $model->stars;
             for($iter = 0; $iter < 5; $iter++) {
                 if($x > 0) {
-                    echo "<span class='fas fa-star'/>";
+                    echo "<span class='fas fa-star' style='color: #ecb753' />";
                     $x--;
                 }
                 else {
-                    echo "<span class='far fa-star'/>";
+                    echo "<span class='far fa-star' style='color: #ecb753' />";
                 }
             }
             ?>

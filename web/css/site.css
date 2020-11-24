@@ -190,3 +190,42 @@ a.desc:after {
     border-bottom: 1px solid grey;
     background-color: #f5f5f5;
 }
+
+.comment-list-form {
+    padding: 0px ;
+    margin: 15px 40px 0px 40px;
+}
+
+.comment-form-group {
+    float: right;
+    display: inline-flex;
+}
+
+.comment-form-group .comment-form-stars {
+    height: 40px;
+    width: 60px;
+    margin: 4px;
+    background-color: #f5f5f5;
+}
+
+.comment-submit-button {
+    height: 40px;
+    width: 120px;
+    margin: 4px 0px 4px 4px;
+    background-color: #f5f5f5;
+    color: black;
+    border-color: black;
+}
+
+.comment-list-item #comment-comment {
+    height: auto;
+    width: auto;
+}
+
+.cart-button, .login-button {
+    margin-left: auto;
+}
+
+.navbar-container {
+    justify-content: flex-start !important;
+}
