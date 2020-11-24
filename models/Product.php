@@ -40,6 +40,7 @@ class Product extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            ['id', 'integer'],
             [['name', 'tax_rate'], 'required'],
             [['price', 'tax_rate', 'weight'], 'number'],
             [['stock', 'warranty'], 'integer'],

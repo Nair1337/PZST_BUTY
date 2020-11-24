@@ -14,11 +14,6 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'comment')->textarea(['maxlength' => true])->label(false) ?>
 
-    <?php
-    $form->field($model, 'author_id')->hiddenInput(['value' => $userID])->label(false);
-    $form->field($model, 'product_id')->hiddenInput(['value' => $productID])->label(false);
-    ?>
-
     <div class="comment-form-group">
         <i class="fas fa-star" style="font-size: 38px; margin: 4px; color: #ecb753"></i>
         <?= $form->field($model, 'stars')->dropDownList(

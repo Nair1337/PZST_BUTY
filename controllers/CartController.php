@@ -3,18 +3,16 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\Product;
-use app\models\ProductSearch;
 use app\models\CartProduct;
+use app\models\CartProductSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use app\models\Comment;
 
 /**
- * ProductController implements the CRUD actions for Product model.
+ * CartController implements the CRUD actions for CartProduct model.
  */
-class ProductController extends Controller
+class CartController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -26,18 +24,19 @@ class ProductController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
+                    'update' => ['POST'],
                 ],
             ],
         ];
     }
 
     /**
-     * Lists all Product models.
+     * Lists all CartProduct models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new ProductSearch();
+        $searchModel = new CartProductSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -47,45 +46,26 @@ class ProductController extends Controller
     }
 
     /**
-     * Displays a single Product model.
+     * Displays a single CartProduct model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionView($id)
     {
-        $commentModel = new Comment();
-
-        if ($commentModel->load(Yii::$app->request->post())) {
-            $commentModel->author_id = Yii::$app->user->identity->id;
-            $commentModel->product_id = $id;
-            $commentModel->save();
-            return $this->redirect(['view', 'id' => $id]);
-        }
-
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
     }
 
-    public function actionCartify($id)
-    {
-        $model = new CartProduct();
-        $model->owner_id = Yii::$app->user->identity->id;
-        $model->product_id = $id;
-        $model->quantity = 1;
-        $model->save();
-        return $this->redirect(['view', 'id' => $id]);
-    }
-
     /**
-     * Creates a new Product model.
+     * Creates a new CartProduct model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Product();
+        $model = new CartProduct();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -97,7 +77,7 @@ class ProductController extends Controller
     }
 
     /**
-     * Updates an existing Product model.
+     * Updates an existing CartProduct model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -108,16 +88,12 @@ class ProductController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['index']);
         }
-
-        return $this->render('update', [
-            'model' => $model,
-        ]);
     }
 
     /**
-     * Deletes an existing Product model.
+     * Deletes an existing CartProduct model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -131,15 +107,15 @@ class ProductController extends Controller
     }
 
     /**
-     * Finds the Product model based on its primary key value.
+     * Finds the CartProduct model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Product the loaded model
+     * @return CartProduct the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Product::findOne($id)) !== null) {
+        if (($model = CartProduct::findOne($id)) !== null) {
             return $model;
         }
 

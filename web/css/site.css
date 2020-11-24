@@ -226,6 +226,15 @@ a.desc:after {
     margin-left: auto;
 }
 
+.detailed-view-price {
+    color: #ef2809;
+    font-weight: bold;
+}
+
+.btn-add-to-cart {
+    margin-bottom: 8px;
+}
+
 .navbar-container {
     justify-content: flex-start !important;
 }

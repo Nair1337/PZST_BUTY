@@ -10,6 +10,7 @@ use yii\bootstrap4\Nav;
 use yii\bootstrap4\NavBar;
 use yii\bootstrap4\Breadcrumbs;
 use app\assets\AppAsset;
+use app\models\CartProduct;
 
 AppAsset::register($this);
 ?>
@@ -45,8 +46,9 @@ AppAsset::register($this);
             ['label' => 'About', 'url' => ['/site/about']],
             ['label' => 'Contact', 'url' => ['/site/contact']],
             [
-                'label' => 'Cart',
-                'url' => ['site/cart'],
+                'label' => '<i class="fa fa-shopping-cart"></i> Cart <span style="font-size: 12px">(' . CartProduct::getSummary(Yii::$app->user->identity->id) . '€)</span>',
+                'encode' => false,
+                'url' => Yii::$app->urlManager->createUrl('cart/index'),
                 'visible' => !Yii::$app->user->isGuest,
                 'options' => ['class' => 'cart-button']
             ],
