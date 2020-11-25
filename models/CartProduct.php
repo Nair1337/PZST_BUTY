@@ -32,6 +32,7 @@ class CartProduct extends \yii\db\ActiveRecord
             [['owner_id', 'product_id', 'quantity'], 'integer'],
             [['owner_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['owner_id' => 'id']],
             [['product_id'], 'exist', 'skipOnError' => true, 'targetClass' => Product::className(), 'targetAttribute' => ['product_id' => 'id']],
+            [['quantity'], 'integer', 'min' => 1]
         ];
     }
 

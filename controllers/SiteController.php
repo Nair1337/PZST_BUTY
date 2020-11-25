@@ -12,6 +12,7 @@ use app\models\LoginForm;
 use app\models\SignupForm;
 use app\models\ContactForm;
 use app\models\Product;
+use app\models\Order;
 
 class SiteController extends Controller
 {
@@ -112,21 +113,27 @@ class SiteController extends Controller
     }
 
     /**
-     * Displays contact page.
+     * Displays profile page.
      *
      * @return Response|string
      */
-    public function actionContact()
+    public function actionProfile()
     {
-        $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
-            Yii::$app->session->setFlash('contactFormSubmitted');
+        $userModel = Yii::$app->user->identity;
+        $model = new SignupForm($userModel);
 
-            return $this->refresh();
+        if ($model->load(Yii::$app->request->post()) && $model->edit($userModel)) {
+            return $this->goHome();
         }
-        return $this->render('contact', [
+
+        return $this->render(Yii::$app->urlManager->createUrl('site/profile'), [
             'model' => $model,
         ]);
+    }
+
+    public function actionOrderview($id) {
+        $model = Order::find()->where(['id' => $id])->one();
+        return $this->render(Yii::$app->urlManager->createUrl('user/order_view'), ['model' => $model]);
     }
 
     /**

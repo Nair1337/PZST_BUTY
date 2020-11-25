@@ -73,7 +73,7 @@ class Comment extends \yii\db\ActiveRecord
     public function save($runValidation = true, $attributeNames = null)
     {
 
-        $this->timestamp = '2020-06-02 03:06:15';
+        $this->timestamp = date("Y-m-d H:i:s");
 
         if ($this->getIsNewRecord()) {
             return $this->insert($runValidation, $attributeNames);

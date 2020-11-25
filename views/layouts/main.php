@@ -43,22 +43,30 @@ AppAsset::register($this);
         'items' => [
             //['label' => 'Home', 'url' => ['/site/index']],
             ['label' => 'Products', 'url' => ['/product']],
-            ['label' => 'About', 'url' => ['/site/about']],
-            ['label' => 'Contact', 'url' => ['/site/contact']],
-            [
-                'label' => '<i class="fa fa-shopping-cart"></i> Cart <span style="font-size: 12px">(' . CartProduct::getSummary(Yii::$app->user->identity->id) . '€)</span>',
-                'encode' => false,
-                'url' => Yii::$app->urlManager->createUrl('cart/index'),
-                'visible' => !Yii::$app->user->isGuest,
-                'options' => ['class' => 'cart-button']
-            ],
+            ['label' => 'About us', 'url' => ['/site/about']],
+            //['label' => 'Contact', 'url' => ['/site/contact']],
             Yii::$app->user->isGuest ? (
             ['label' => 'Login', 'url' => ['/site/login'], 'options' => ['class' => 'login-button']]
             ) : (
-                '<li class="nav-item">'
+                '<li class="nav-item profile-button">'
+                . Html::beginForm(Yii::$app->urlManager->createUrl('site/profile'), 'get')
+                . Html::submitButton(
+                    '<i class="fa fa-user"></i> Profile',
+                    ['class' => 'btn btn-link nav-link', 'style' => 'border: 0']
+                )
+                . Html::endForm()
+                . '<li class="nav-item cart-button">'
+                . Html::beginForm(Yii::$app->urlManager->createUrl('cart/index'), 'get')
+                . Html::submitButton(
+                    '<i class="fa fa-shopping-cart"></i> Cart <span style="font-size: 12px">(' . CartProduct::getSummary(Yii::$app->user->identity->id) . ' €)</span>',
+                    ['class' => 'btn btn-link nav-link', 'style' => 'border: 0']
+                )
+                . Html::endForm()
+                . '</li>'
+                . '<li class="nav-item">'
                 . Html::beginForm(['/site/logout'], 'post')
                 . Html::submitButton(
-                    'Logout (' . Yii::$app->user->identity->username . ')',
+                    'Logout <span style="font-size: 12px">(' . Yii::$app->user->identity->username . ')</span>',
                     ['class' => 'btn btn-link nav-link', 'style' => 'border: 0']
                 )
                 . Html::endForm()

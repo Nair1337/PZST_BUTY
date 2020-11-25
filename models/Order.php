@@ -37,7 +37,7 @@ class Order extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'order_date'], 'required'],
+            [['user_id', 'order_date', 'delivery_id', 'payment_id'], 'required'],
             [['user_id', 'payment_id', 'delivery_id'], 'integer'],
             [['total_value'], 'number'],
             [['order_date'], 'safe'],
@@ -58,8 +58,8 @@ class Order extends \yii\db\ActiveRecord
             'id' => 'ID',
             'user_id' => 'User ID',
             'total_value' => 'Total Value',
-            'payment_id' => 'Payment ID',
-            'delivery_id' => 'Delivery ID',
+            'payment_id' => 'Payment method',
+            'delivery_id' => 'Delivery method',
             'delivery_address' => 'Delivery Address',
             'status' => 'Status',
             'order_date' => 'Order Date',

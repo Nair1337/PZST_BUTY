@@ -51,4 +51,27 @@ class SignupForm extends Model
             return false;
         }
     }
+
+    function __construct($user) {
+        parent::__construct();
+        $this->username = $user->username;
+        $this->first_name = $user->first_name;
+        $this->last_name = $user->last_name;
+        $this->email_address = $user->email_address;
+    }
+
+    public function edit($user)
+    {
+        $user->username = $this->username;
+        $user->password_hash = \Yii::$app->getSecurity()->generatePasswordHash($this->password);
+        $user->first_name = $this->first_name;
+        $user->last_name = $this->last_name;
+        $user->email_address = $this->email_address;
+
+        if ($user->save()) return true;
+        else {
+            \Yii::error("The changes were not saved. " . VarDumper::dumpAsString($user->errors));
+            return false;
+        }
+    }
 }

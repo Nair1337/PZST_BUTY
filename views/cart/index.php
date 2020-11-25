@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php
-    $priceSummary = CartProduct::getSummary(Yii::$app->user->identity->id) . '€';
+    $priceSummary = '<span class="detailed-view-price">' . CartProduct::getSummary(Yii::$app->user->identity->id) . ' €</span>';
     ?>
     <?= GridView::widget([
         'dataProvider' => new ActiveDataProvider([
@@ -53,10 +53,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'headerOptions' => ['class' => 'text-center'],
                 'footer' => $priceSummary,
                 'value' => function ($data) {
-                    return CartProduct::getProduct($data->product_id)->price . '€';
+                    return CartProduct::getProduct($data->product_id)->price . ' €';
                 },
                 'label' => 'Price',
-                'contentOptions' => ['class' => 'text-center align-middle', 'style' => 'width: 128px'],
+                'contentOptions' => ['class' => 'text-center align-middle detailed-view-price', 'style' => 'width: 128px'],
             ],
             [
                 'class' => 'yii\grid\DataColumn',
@@ -90,6 +90,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ],
     ]); ?>
-
-
+    <form type="get" action="checkout">
+        <button class="btn btn-success" type="submit">Checkout</button>
+    </form>
 </div>

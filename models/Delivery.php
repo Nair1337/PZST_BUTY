@@ -9,6 +9,7 @@ use Yii;
  *
  * @property int $id
  * @property string $name
+ * @property float $cost
  *
  * @property Order[] $orders
  */
@@ -28,7 +29,8 @@ class Delivery extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name'], 'required'],
+            [['name', 'cost'], 'required'],
+            [['cost'], 'number'],
             [['name'], 'string', 'max' => 45],
         ];
     }
@@ -41,6 +43,7 @@ class Delivery extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'name' => 'Name',
+            'cost' => 'Cost',
         ];
     }
 

@@ -2,12 +2,14 @@
 
 namespace app\controllers;
 
+use app\models\OrderProduct;
 use Yii;
 use app\models\CartProduct;
 use app\models\CartProductSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\models\Order;
 
 /**
  * CartController implements the CRUD actions for CartProduct model.
@@ -86,6 +88,8 @@ class CartController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $post_request = Yii::$app->request->post();
+        if ($post_request['CartProduct']['quantity'] < 1) return $this->redirect(['index']);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);
@@ -104,6 +108,46 @@ class CartController extends Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+
+    public function actionCheckout()
+    {
+        $model = new Order();
+        $model->user_id = Yii::$app->user->identity->id;
+        return $this->render(Yii::$app->urlManager->createUrl('cart/delivery_payment_choice'), ['model' => $model]);
+    }
+
+    public function actionCheckoutfinish()
+    {
+        $model = new Order();
+        $model->user_id = Yii::$app->user->identity->id;
+        $model->load(Yii::$app->request->post());
+        return $this->render(Yii::$app->urlManager->createUrl('cart/order_summary'), ['model' => $model]);
+    }
+
+    public function actionCheckoutplaceorder()
+    {
+        $model = new Order();
+        $model->user_id = Yii::$app->user->identity->id;
+        $model->load(Yii::$app->request->post());
+        $model->status = 'New';
+        $model->order_date = date("Y-m-d H:i:s");
+        $model->total_value = CartProduct::getSummary(Yii::$app->user->identity->id) + $model->delivery->cost;
+
+        $model->save();
+
+        $cartProducts = CartProduct::find()->where(['owner_id' => Yii::$app->user->identity->id])->all();
+
+        foreach ($cartProducts as &$cp) {
+            $op = new OrderProduct();
+            $op->order_id = $model->id;
+            $op->product_id = $cp->product_id;
+            $op->quantity = $cp->quantity;
+            $op->save();
+            $cp->delete();
+        }
+
+        return $this->render(Yii::$app->urlManager->createUrl('site/index'));
     }
 
     /**
