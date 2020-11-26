@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
         <div class="col-6">
             <?php
-            $price_arr = explode('.', $model->price);
+            $price_arr = explode(',', number_format($model->price, 2, ',', ' '));
             ?>
             <?php if (!Yii::$app->user->isGuest) { ?>
                 <div>

@@ -35,42 +35,49 @@ AppAsset::register($this);
         'brandLabel' => Yii::$app->name,
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
-            'class' => 'navbar-expand-lg navbar-dark bg-dark fixed-top',
+            'class' => 'navbar-expand-lg navbar-dark bg-dark fixed-top navbar-nice-color',
         ],
     ]);
     echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right container-fluid navbar-container'],
+        'options' => ['class' => 'navbar-pills navbar-right container-fluid navbar-container'],
         'items' => [
             //['label' => 'Home', 'url' => ['/site/index']],
             ['label' => 'Products', 'url' => ['/product']],
             ['label' => 'About us', 'url' => ['/site/about']],
             //['label' => 'Contact', 'url' => ['/site/contact']],
             Yii::$app->user->isGuest ? (
-            ['label' => 'Login', 'url' => ['/site/login'], 'options' => ['class' => 'login-button']]
+                '</li>'
+                . '<li class="nav-item login-button">'
+                . '<a class="nav-link" href="/site/login"> '
+                . '<i class="fa fa-sign-in-alt"></i> Login'
+                . '</a></li>'
             ) : (
+            Yii::$app->user->identity->is_admin ?
+                (
+                    '<li class="nav-item admin-button">'
+                    . '<a class="nav-link" href="/admin/index"> '
+                    . '<i class="fa fa-user-cog"></i> Admin Panel'
+                    . '</a></li>'
+
+                    . '<li class="nav-item">'
+                    . '<a class="nav-link" href="/site/logout"> '
+                    . '<i class="fa fa-sign-out-alt"></i> Logout <span style="font-size: 12px">(' . Yii::$app->user->identity->username . ')</span>'
+                    . '</a></li>'
+                ) : (
                 '<li class="nav-item profile-button">'
-                . Html::beginForm(Yii::$app->urlManager->createUrl('site/profile'), 'get')
-                . Html::submitButton(
-                    '<i class="fa fa-user"></i> Profile',
-                    ['class' => 'btn btn-link nav-link', 'style' => 'border: 0']
-                )
-                . Html::endForm()
+                . '<a class="nav-link" href="/site/profile"> '
+                . '<i class="fa fa-user"></i> Profile'
+                . '</a></li>'
+
                 . '<li class="nav-item cart-button">'
-                . Html::beginForm(Yii::$app->urlManager->createUrl('cart/index'), 'get')
-                . Html::submitButton(
-                    '<i class="fa fa-shopping-cart"></i> Cart <span style="font-size: 12px">(' . CartProduct::getSummary(Yii::$app->user->identity->id) . ' €)</span>',
-                    ['class' => 'btn btn-link nav-link', 'style' => 'border: 0']
-                )
-                . Html::endForm()
-                . '</li>'
+                . '<a class="nav-link" href="/cart/index"> '
+                . '<i class="fa fa-shopping-cart"></i> Cart <span style="font-size: 12px">(' . CartProduct::getSummary(Yii::$app->user->identity->id) . ' €)</span>'
+
                 . '<li class="nav-item">'
-                . Html::beginForm(['/site/logout'], 'post')
-                . Html::submitButton(
-                    'Logout <span style="font-size: 12px">(' . Yii::$app->user->identity->username . ')</span>',
-                    ['class' => 'btn btn-link nav-link', 'style' => 'border: 0']
-                )
-                . Html::endForm()
-                . '</li>'
+                . '<a class="nav-link" href="/site/logout"> '
+                . '<i class="fa fa-sign-out-alt"></i> Logout <span style="font-size: 12px">(' . Yii::$app->user->identity->username . ')</span>'
+                . '</a></li>'
+            )
             )
         ],
     ]);
@@ -87,7 +94,7 @@ AppAsset::register($this);
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
+        <p class="pull-left">&copy; Anuśkiewicz, Adamski, Borkowski, Burzyński, I7G2S1 - PZST 2020</p>
 
         <p class="pull-right"><?= Yii::powered() ?></p>
     </div>

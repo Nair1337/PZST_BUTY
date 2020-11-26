@@ -11,6 +11,6 @@ use yii\helpers\Html;
                  height="128">
         </figure>
         <h3 class="text-dark"><?= Html::encode($model['name']); ?></h3>
-        <h6 class="detailed-view-price"><?= Html::encode($model['price']); ?> €</h6>
+        <h6 class="detailed-view-price"><?= Html::encode(number_format($model['price'], 2, ',', ' ')); ?> €</h6>
         </a>
     </article>

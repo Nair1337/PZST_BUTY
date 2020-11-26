@@ -42,8 +42,8 @@ class Product extends \yii\db\ActiveRecord
         return [
             ['id', 'integer'],
             [['name', 'tax_rate'], 'required'],
-            [['price', 'tax_rate', 'weight'], 'number'],
-            [['stock', 'warranty'], 'integer'],
+            [['price', 'tax_rate', 'weight'], 'number', 'min' => 0],
+            [['stock', 'warranty'], 'integer', 'min' => 0],
             [['name'], 'string', 'max' => 45],
             [['description'], 'string', 'max' => 255],
             [['ean', 'picture_url'], 'string', 'max' => 90],
@@ -121,5 +121,19 @@ class Product extends \yii\db\ActiveRecord
 
     public function getCategories() {
         return $this->hasMany(Category::className(), ['id' => 'category_id'])->viaTable('product_category', ['product_id' => 'id']);
+    }
+
+    public function loadForm($form)
+    {
+        $this->id = $form->id;
+        $this->name = $form->name;
+        $this->price = $form->price;
+        $this->description = $form->description;
+        $this->stock = $form->stock;
+        $this->tax_rate = $form->tax_rate;
+        $this->ean = $form->ean;
+        $this->picture_url = $form->picture_url;
+        $this->weight = $form->weight;
+        $this->warranty = $form->warranty;
     }
 }
