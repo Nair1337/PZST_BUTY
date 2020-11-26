@@ -2,15 +2,22 @@
 
 namespace app\controllers;
 
+use app\models\Delivery;
+use app\models\Order;
+use app\models\OrderProduct;
+use app\models\Payment;
 use app\models\ProductSearch;
 use app\models\CategorySearch;
+use app\models\UserSearch;
 use Yii;
+use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\helpers\VarDumper;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use app\models\ContactForm;
 use app\models\Product;
+use app\models\User;
 use app\models\Category;
 use app\models\ProductCategory;
 use app\models\Comment;
@@ -235,6 +242,180 @@ class AdminController extends Controller
         Category::findOne($id)->delete();
 
         return $this->redirect(['admin/category']);
+    }
+
+    public function actionPayment()
+    {
+        if (!$this->checkAdmin()) return $this->render(Yii::$app->urlManager->createUrl('site/index'));
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => Payment::find(),
+        ]);
+
+        return $this->render('/admin/payment_list', [
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionPaymentcreate()
+    {
+        if (!$this->checkAdmin()) return $this->render(Yii::$app->urlManager->createUrl('site/index'));
+
+        $model = new Payment();
+        if ($model->load(Yii::$app->request->post())) {
+            $model->save();
+            return $this->redirect('/admin/payment');
+        }
+        return $this->render('payment_create', [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionPaymentupdate($id)
+    {
+        if (!$this->checkAdmin()) return $this->render(Yii::$app->urlManager->createUrl('site/index'));
+
+        $model = Payment::findOne($id);
+        if ($model->load(Yii::$app->request->post())) {
+            $model->id = $id;
+            $model->update();
+            return $this->redirect('/admin/paymentupdate?id=' . $id);
+        }
+        $model = Payment::findOne($id);
+
+        return $this->render('/admin/payment_update', [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionPaymentdelete($id)
+    {
+        if (!$this->checkAdmin()) return $this->render(Yii::$app->urlManager->createUrl('site/index'));
+
+        Payment::findOne($id)->delete();
+
+        return $this->redirect(['admin/payment']);
+    }
+
+    public function actionDelivery()
+    {
+        if (!$this->checkAdmin()) return $this->render(Yii::$app->urlManager->createUrl('site/index'));
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => Delivery::find(),
+        ]);
+
+        return $this->render('/admin/delivery_list', [
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionDeliverycreate()
+    {
+        if (!$this->checkAdmin()) return $this->render(Yii::$app->urlManager->createUrl('site/index'));
+
+        $model = new Delivery();
+        if ($model->load(Yii::$app->request->post())) {
+            $model->save();
+            return $this->redirect('/admin/delivery');
+        }
+        return $this->render('delivery_create', [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionDeliveryupdate($id)
+    {
+        if (!$this->checkAdmin()) return $this->render(Yii::$app->urlManager->createUrl('site/index'));
+
+        $model = Delivery::findOne($id);
+        if ($model->load(Yii::$app->request->post())) {
+            $model->id = $id;
+            $model->update();
+            return $this->redirect('/admin/deliveryupdate?id=' . $id);
+        }
+        $model = Delivery::findOne($id);
+
+        return $this->render('/admin/delivery_update', [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionDeliverydelete($id)
+    {
+        if (!$this->checkAdmin()) return $this->render(Yii::$app->urlManager->createUrl('site/index'));
+
+        Delivery::findOne($id)->delete();
+
+        return $this->redirect(['admin/delivery']);
+    }
+
+    public function actionUser()
+    {
+        if (!$this->checkAdmin()) return $this->render(Yii::$app->urlManager->createUrl('site/index'));
+
+        $searchModel = new UserSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('/admin/user_list', [
+            'dataProvider' => $dataProvider,
+            'searchModel' => $searchModel,
+        ]);
+    }
+
+    public function actionUserupdate($id)
+    {
+        if (!$this->checkAdmin()) return $this->render(Yii::$app->urlManager->createUrl('site/index'));
+
+        $model = User::findOne($id);
+        if ($model->load(Yii::$app->request->post())) {
+            $model->id = $id;
+            $model->update();
+            return $this->redirect('/admin/userupdate?id=' . $id);
+        }
+
+        return $this->render('/admin/user_update', [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionOrder()
+    {
+        if (!$this->checkAdmin()) return $this->render(Yii::$app->urlManager->createUrl('site/index'));
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => Order::find(),
+        ]);
+
+        return $this->render('/admin/order_list', [
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionOrderupdate($id)
+    {
+        if (!$this->checkAdmin()) return $this->render(Yii::$app->urlManager->createUrl('site/index'));
+
+        $model = Order::findOne($id);
+        if ($model->load(Yii::$app->request->post())) {
+            $model->id = $id;
+            $model->update();
+            return $this->redirect('/admin/orderupdate?id=' . $id);
+        }
+
+        return $this->render('/admin/order_update', [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionOrderdelete($id)
+    {
+        if (!$this->checkAdmin()) return $this->render(Yii::$app->urlManager->createUrl('site/index'));
+
+        foreach(OrderProduct::find()->where(['order_id' => $id])->all() as &$op) $op->delete();
+        Order::findOne($id)->delete();
+
+        return $this->redirect(['admin/order']);
     }
 
     private function checkAdmin()

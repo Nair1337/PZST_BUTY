@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\OrderProduct;
+use app\models\Product;
 use Yii;
 use app\models\CartProduct;
 use app\models\CartProductSearch;
@@ -139,6 +140,9 @@ class CartController extends Controller
         $cartProducts = CartProduct::find()->where(['owner_id' => Yii::$app->user->identity->id])->all();
 
         foreach ($cartProducts as &$cp) {
+            $product = Product::findOne($cp->product_id);
+            $product->stock = $product->stock - $cp->quantity;
+            $product->update();
             $op = new OrderProduct();
             $op->order_id = $model->id;
             $op->product_id = $cp->product_id;

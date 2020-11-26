@@ -8,8 +8,10 @@ $this->title = 'BorkoShoeStore';
 
     <div class="jumbotron">
         <h1>Projekt Zespołowy ST 2020</h1>
-
-        <p class="lead">PA && RA && WB && KB</p>
+        <p class="lead">Rafał Adamski</p>
+        <p class="lead">Piotr Anuśkiewicz</p>
+        <p class="lead">Karol Borkowski</p>
+        <p class="lead">Wojciech Burzyński</p>
     </div>
 
     <div class="body-content">

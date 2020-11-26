@@ -16,11 +16,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>Please fill out the following fields to login:</p>
 
     <?php $form = ActiveForm::begin([
-        'id' => 'login-form',
-        'layout' => 'horizontal',
         'fieldConfig' => [
-            'template' => "{label}\n<div class=\"col-lg-3\">{input}</div>\n<div class=\"col-lg-7\">{error}</div>",
-            'labelOptions' => ['class' => 'col-lg-2 control-label'],
+            'template' => '<div class="row mt-2 mb-2"><div class="col-lg-1 mt-2">{label}</div><div class="col-lg-3 mt-2">{input}</div>{error}</div>',
         ],
     ]); ?>
 
@@ -34,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <div class="form-group">
             <div>
-                <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
+                <?= Html::submitButton('Login', ['class' => 'btn btn-primary mt-3 mb-3', 'name' => 'login-button']) ?>
             </div>
         </div>
 

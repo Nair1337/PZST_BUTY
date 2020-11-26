@@ -95,7 +95,6 @@ AppAsset::register($this);
 <footer class="footer">
     <div class="container">
         <p class="pull-left">&copy; Anuśkiewicz, Adamski, Borkowski, Burzyński, I7G2S1 - PZST 2020</p>
-
         <p class="pull-right"><?= Yii::powered() ?></p>
     </div>
 </footer>

@@ -7,7 +7,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="admin-index container">
     <div class="body-content">
-        <div class="row">
+        <div class="row mt-2 mb-4">
             <h1>Welcome to the admin panel</h1>
         </div>
         <div class="row">
@@ -17,10 +17,10 @@ $this->params['breadcrumbs'][] = $this->title;
             <p><a href="/admin/category"><i class="fa fa-wrench"></i> Manage categories</a></p>
         </div>
         <div class="row">
-            <p><a href="/admin/payment"><i class="fa fa-wrench"></i> Manage payments</a></p>
+            <p><a href="/admin/payment"><i class="fa fa-wrench"></i> Manage payment methods</a></p>
         </div>
         <div class="row">
-            <p><a href="/admin/delivery"><i class="fa fa-wrench"></i> Manage deliveries</a></p>
+            <p><a href="/admin/delivery"><i class="fa fa-wrench"></i> Manage delivery methods</a></p>
         </div>
         <div class="row">
             <p><a href="/admin/order"><i class="fa fa-wrench"></i> Manage orders</a></p>

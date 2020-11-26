@@ -72,4 +72,5 @@ $this->params['breadcrumbs'][] = $this->title;
         echo '<a href=' . Yii::$app->urlManager->createUrl('site/orderview') . '?id=' . $ord->id . '><p>#' . $ord->id . ' - ' . $ord->order_date . ' - ' . $ord->total_value . '€ - Status: ' . $ord->status . '</p></a>';
     }
     ?>
+
 </div>
