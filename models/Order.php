@@ -105,4 +105,9 @@ class Order extends \yii\db\ActiveRecord
     {
         return $this->hasMany(OrderProduct::className(), ['order_id' => 'id']);
     }
+
+    public function getValue()
+    {
+        return $this->total_value;
+    }
 }

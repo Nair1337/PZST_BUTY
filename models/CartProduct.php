@@ -57,7 +57,7 @@ class CartProduct extends \yii\db\ActiveRecord
         $entries = CartProduct::find()->where(['owner_id' => $user_id])->all();
         $sum = 0;
         foreach($entries as &$entry) {
-            $sum = $sum + CartProduct::getProduct($entry->product_id)->price * $entry->quantity;
+            $sum += CartProduct::getProduct($entry->product_id)->price * $entry->quantity;
         }
         return $sum;
     }

@@ -91,6 +91,6 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]); ?>
     <form type="get" action="checkout">
-        <button class="btn btn-success" type="submit">Checkout</button>
+        <button class="btn btn-primary" type="submit">Checkout</button>
     </form>
 </div>

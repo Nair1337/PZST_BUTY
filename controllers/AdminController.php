@@ -412,7 +412,11 @@ class AdminController extends Controller
     {
         if (!$this->checkAdmin()) return $this->render(Yii::$app->urlManager->createUrl('site/index'));
 
-        foreach(OrderProduct::find()->where(['order_id' => $id])->all() as &$op) $op->delete();
+        foreach(OrderProduct::find()->where(['order_id' => $id])->all() as &$op) {
+            $op->product->stock += $op->quantity;
+            $op->product->update();
+            $op->delete();
+        }
         Order::findOne($id)->delete();
 
         return $this->redirect(['admin/order']);

@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div>
                     <form name="add-to-cart" action="cartify">
                         <input type="hidden" value="<?= $model->id ?>" name="id"/>
-                        <button class='btn btn-success btn-add-to-cart' type='submit'>
+                        <button class='btn btn-success btn-add-to-cart' type='submit' <?php if(!($model->stock > 0)) echo 'disabled' ?>>
                             <i class="fas fa-cart-plus"></i>
                             Add to Cart
                         </button>
@@ -93,7 +93,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php if (!Yii::$app->user->isGuest) { ?>
                 <div class="comment-list-form">
                     <?=
-                    $this->render('../comment/_form', [
+                    $this->render('/product/_comment_form', [
                         'model' => new Comment(),
                         'productID' => $model->id,
                         'userID' => Yii::$app->user->identity->getId(),

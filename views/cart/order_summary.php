@@ -24,32 +24,32 @@ $this->params['breadcrumbs'][] = $this->title;
     ?>
 
     <div class="container row">
-        <div class="offset-md-1 col-md-3">Total order value:</div>
-        <div class="col-md-8 text-info"><?= $model->total_value ?> €</div>
+        <div class="col-md-3"><h5>Total order value:</h5></div>
+        <div class="col-md-9 text-info"><?= $model->total_value ?> €</div>
     </div>
     <div class="container row">
-        <div class="offset-md-1 col-md-3">Delivery:</div>
-        <div class="col-md-8 text-info"><?= $model->delivery->name ?></div>
+        <div class="col-md-3"><h5>Delivery method:</h5></div>
+        <div class="col-md-9 text-info"><?= $model->delivery->name ?></div>
     </div>
     <div class="container row">
-        <div class="offset-md-1 col-md-3">Payment:</div>
-        <div class="col-md-8 text-info"><?= $model->payment->name ?></div>
+        <div class="col-md-3"><h5>Payment method:</h5></div>
+        <div class="col-md-9 text-info"><?= $model->payment->name ?></div>
     </div>
     <div class="container row">
-        <div class="offset-md-1 col-md-3">Delivery address:</div>
-        <div class="col-md-8 text-info"><?= $model->delivery_address ?></div>
+        <div class="col-md-3"><h5>Delivery address:</h5></div>
+        <div class="col-md-9 text-info"><?= $model->delivery_address ?></div>
     </div>
     <div class="container row">
-        <div class="offset-md-1 col-md-3">Ordered Products:</div>
+        <div class="col-md-3"><h5>Ordered Products:</h5></div>
     </div>
     <?php
     foreach (CartProduct::find()->where(['owner_id' => Yii::$app->user->identity->id])->all() as &$carPr) {
-        echo '<div class="container row"><div class="offset-md-4 col-md-8 text-info">' . $carPr->getProduct($carPr->product_id)->name . ' - ' . $carPr->quantity . '</div></div>';
+        echo '<div class="container row"><div class="offset-md-3 col-md-9 text-info">' . $carPr->getProduct($carPr->product_id)->name . ' - ' . $carPr->quantity . '</div></div>';
     }
     ?>
 
     <div class="container row">
-        <div class="offset-md-1 col-md-11 mt-3">
+        <div class="col-md-12 mt-3">
             <?php $form = ActiveForm::begin(['action' => Yii::$app->urlManager->createUrl('cart/checkoutplaceorder')]); ?>
             <?= $form->field($model, 'delivery_id')->hiddenInput(['value' => $model->delivery_id])->label(false); ?>
             <?= $form->field($model, 'payment_id')->hiddenInput(['value' => $model->payment_id])->label(false); ?>

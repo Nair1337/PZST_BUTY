@@ -133,7 +133,7 @@ class CartController extends Controller
         $model->load(Yii::$app->request->post());
         $model->status = 'New';
         $model->order_date = date("Y-m-d H:i:s");
-        $model->total_value = CartProduct::getSummary(Yii::$app->user->identity->id) + $model->delivery->cost;
+        $model->total_value = floatval(floatval(CartProduct::getSummary(Yii::$app->user->identity->id)) + floatval($model->delivery->cost));
 
         $model->save();
 
@@ -150,6 +150,13 @@ class CartController extends Controller
             $op->save();
             $cp->delete();
         }
+
+        $model = Order::findOne($model->id);
+        Yii::$app->mailer->compose('/cart/order_confirmation_email', ['model' => $model])
+            ->setFrom("dwshop2020@gmail.com")
+            ->setTo($model->user->email_address)
+            ->setSubject('Order confirmation: #' . $model->id)
+            ->send();
 
         return $this->render(Yii::$app->urlManager->createUrl('site/index'));
     }

@@ -92,8 +92,6 @@
       <path value="$PROJECT_DIR$/vendor/symfony/polyfill-intl-idn" />
       <path value="$PROJECT_DIR$/vendor/kartik-v/yii2-krajee-base" />
       <path value="$PROJECT_DIR$/vendor/kartik-v/yii2-dialog" />
-      <path value="$PROJECT_DIR$/vendor/bower-asset/bootstrap" />
-      <path value="$PROJECT_DIR$/vendor/yiisoft/yii2-bootstrap" />
     </include_path>
   </component>
 </project>
